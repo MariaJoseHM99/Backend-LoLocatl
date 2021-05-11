@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('/user/signUp', [LoginController::class,'signUp']);
+Route::post('/user/login',[LoginController::class,'login']);
+
+Route::group(['middleware' => 'auth:api'],function(){
+    //LOGIN CONTROLLER
+Route::get('/user/logout',[LoginController::class,'logout']);
 });
