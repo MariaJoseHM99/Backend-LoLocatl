@@ -45,4 +45,24 @@ class User extends Authenticatable {
         "password"
     ];
 
+    public function saveUser() {
+        if (!$this->save()) {
+            throw new \Exception("An error occurred on saving user.");
+        }
+    }
+
+    public static function getuserByEmail(string $email){
+        $user = user::where("email", $email)->get()->first();
+        if ($user == null) {
+            throw new \Exception("User not found.");
+        }
+        return $user;
+    }
+
+    public function saveToken(){
+        if (!$this->save()) {
+            throw new \Exception("An error occurred on saving user.");
+        }
+    }
+
 }
