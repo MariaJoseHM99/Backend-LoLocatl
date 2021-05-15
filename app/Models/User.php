@@ -65,4 +65,24 @@ class User extends Authenticatable {
         }
     }
 
+    public static function getUserById(int $userId){  
+        $user = User::find($userId); 
+        if (User::where("user_id", $userId)->count() == 0) 
+        {
+            return response()->json([
+                'message' => 'The user doesn´t exit'
+            ]);
+        }else {
+            return $user; 
+        }  
+    }
+
+    public static function deleteUserById(int $userId){
+        $user = User::where("userId", $userId)->delete();
+        if ($user == null) {
+            throw new \Exception("User not found.");
+        }
+    }
+
+
 }

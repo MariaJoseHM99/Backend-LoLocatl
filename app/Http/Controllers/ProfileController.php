@@ -44,4 +44,29 @@ class ProfileController extends Controller
          }
         
     }
+
+    public function deleteUser(Request $request){
+        $request->validate([
+            'userId' => 'required|integer'
+        ]);  
+
+        try{
+            $user = $request->user();
+            $user = User:: deleteUserById($request->input("userId"));
+
+            return response()->json([
+                "status" => "success",
+                'message' => 'User deleted successfully!'
+            ], 201);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "failure",
+                "message" => $e->getMessage()
+            ], 500);
+         }
+        
+        
+        
+    }
 }

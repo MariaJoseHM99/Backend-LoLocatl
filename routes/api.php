@@ -23,4 +23,5 @@ Route::group(['middleware' => 'auth:api'],function(){
     //LOGIN CONTROLLER
 Route::get('/user/logout',[LoginController::class,'logout']);
 Route::post('/user/updateUser', [ProfileController::class,'updateUser']);
+Route::delete('/user/deleteUser',[ProfileController::class,'deleteUser']);
 });
