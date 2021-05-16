@@ -37,4 +37,16 @@ class Schedule extends Model {
             throw new \Exception("An error occurred on saving schedule.");
         }
     }
+
+    public static function getScheduleyById(int $scheduleId){  
+        $schedule = Schedule::find($scheduleId); 
+        if (Schedule::where("scheduleId", $scheduleId)->count() == 0) 
+        {
+            return response()->json([
+                'message' => 'The schedule doesn´t exit'
+            ]);
+        }else {
+            return $schedule; 
+        }  
+    }
 }

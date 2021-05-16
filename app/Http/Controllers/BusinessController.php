@@ -11,6 +11,8 @@ use App\Enums\AttentionDay;
 use App\Models\Category;
 use App\Models\Schedule;
 use App\Models\ScheduleDay;
+use App\Models\Business;
+
 
 
 class BusinessController extends Controller
@@ -89,5 +91,36 @@ class BusinessController extends Controller
             ], 500);
         }
     }
+
+    public function registerBusiness(Request $request) {
+        $request->validate([
+            'businessName' => 'required|string',
+            'cellphoneNumber' => 'required|string',
+            'businessDescription' => 'required|string',
+            'categoryId' => 'required|integer',
+            'scheduleId' => 'required|integer'
+        ]);
     
+        try{
+            $business = new Business();
+            $business->categoryId = Category::find($request->input("categoryId"))->categoryId;
+            $business->scheduleId = Schedule::find($request->input("scheduleId"))->scheduleId;
+            $business->businessName = $request->input("businessName");
+            $business->cellphoneNumber = $request->input("cellphoneNumber");
+            $business->businessDescription = $request->input("businessDescription");
+
+            $business->saveBusiness();
+
+            return response()->json([
+                "status" => "success",
+                'message' => 'Business created successfully!'
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "failure",
+                "message" => $e->getMessage()
+            ], 500);
+        }
+    }
 }
+  

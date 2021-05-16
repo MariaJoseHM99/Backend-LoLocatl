@@ -31,4 +31,5 @@ Route::delete('/user/deleteUser',[ProfileController::class,'deleteUser']);
 Route::post('/business/createCategory', [BusinessController::class,'createCategory']);
 Route::post('/business/createSchedule', [BusinessController::class,'createSchedule']);
 Route::post('/business/{scheduleId}/createScheduleDay', [BusinessController::class,'createScheduleDay']);
+Route::post('/business/registerBusiness', [BusinessController::class,'registerBusiness']);
 });
