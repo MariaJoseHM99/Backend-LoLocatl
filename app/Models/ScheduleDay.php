@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Auth;
 
 
-class Schedule extends Model {
+class ScheduleDay extends Model {
     use HasFactory;
 
     /**
@@ -15,14 +15,14 @@ class Schedule extends Model {
      *
      * @var string
      */
-    protected $table = "schedule";
+    protected $table = "scheduleDay";
 
     /**
      * Primary key in table.
      *
      * @var string
      */
-    protected $primaryKey = "scheduleId";
+    protected $primaryKey = "scheduleDayId";
 
      /**
      * True if there are columns for creation and update dates.
@@ -32,7 +32,7 @@ class Schedule extends Model {
     public $timestamps = false;
 
 
-    public function saveSchedule() {
+    public function saveScheduleDay() {
         if (!$this->save()) {
             throw new \Exception("An error occurred on saving schedule.");
         }

@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable {
+    
     use HasFactory, Notifiable, HasApiTokens;
 
     protected $fillable = [
@@ -83,6 +84,4 @@ class User extends Authenticatable {
             throw new \Exception("User not found.");
         }
     }
-
-
 }

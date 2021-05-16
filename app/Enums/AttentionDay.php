@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-abstract class DiaAtencion {
+abstract class AttentionDay {
     const DOMINGO = 0;
     const LUNES = 1;
     const MARTES = 2;

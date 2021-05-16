@@ -25,8 +25,14 @@ class Init extends Migration {
 
         Schema::create("schedule", function (Blueprint $table) {
             $table->increments("scheduleId");
-            $table->integer("attentionDat"); // AttentionDay
             $table->string('timetable',100);
+        });
+
+        Schema::create("scheduleDay", function (Blueprint $table) {
+            $table->increments("scheduleDayId");
+            $table->integer("attentionDay"); // AttentionDay
+            $table->foreign("scheduleId")->references("scheduleId")->on("schedule");
+            $table->integer("scheduleId")->unsigned();
         });
 
         Schema::create("category", function (Blueprint $table) {

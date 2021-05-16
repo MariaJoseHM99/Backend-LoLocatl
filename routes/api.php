@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\BusinessController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,4 +26,9 @@ Route::group(['middleware' => 'auth:api'],function(){
 Route::get('/user/logout',[LoginController::class,'logout']);
 Route::post('/user/updateUser', [ProfileController::class,'updateUser']);
 Route::delete('/user/deleteUser',[ProfileController::class,'deleteUser']);
+
+    //BUSINESS CONTROLLER
+Route::post('/business/createCategory', [BusinessController::class,'createCategory']);
+Route::post('/business/createSchedule', [BusinessController::class,'createSchedule']);
+Route::post('/business/{scheduleId}/createScheduleDay', [BusinessController::class,'createScheduleDay']);
 });
