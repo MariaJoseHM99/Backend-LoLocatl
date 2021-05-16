@@ -49,6 +49,8 @@ class Init extends Migration {
             $table->foreign("categoryId")->references("categoryId")->on("category");
             $table->integer("scheduleId")->unsigned();
             $table->foreign("scheduleId")->references("scheduleId")->on("schedule");
+            $table->integer("userId")->unsigned();
+            $table->foreign("userId")->references("userId")->on("user");
         });
         
         Schema::create("review", function (Blueprint $table) {

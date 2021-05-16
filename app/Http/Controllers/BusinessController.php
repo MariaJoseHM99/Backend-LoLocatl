@@ -12,6 +12,8 @@ use App\Models\Category;
 use App\Models\Schedule;
 use App\Models\ScheduleDay;
 use App\Models\Business;
+use App\Models\User;
+
 
 
 
@@ -103,6 +105,9 @@ class BusinessController extends Controller
     
         try{
             $business = new Business();
+            $user = $request->user();
+            $userId = $user->userId;
+            $business->userId = $userId;
             $business->categoryId = Category::find($request->input("categoryId"))->categoryId;
             $business->scheduleId = Schedule::find($request->input("scheduleId"))->scheduleId;
             $business->businessName = $request->input("businessName");

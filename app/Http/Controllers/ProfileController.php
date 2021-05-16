@@ -41,8 +41,7 @@ class ProfileController extends Controller
                 "status" => "failure",
                 "message" => $e->getMessage()
             ], 500);
-         }
-        
+        }  
     }
 
     public function deleteUser(Request $request){
