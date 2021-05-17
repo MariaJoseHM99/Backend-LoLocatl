@@ -43,6 +43,7 @@ class Init extends Migration {
         Schema::create("business", function (Blueprint $table) {
             $table->increments("businessId");
             $table->string("businessName", 50)->unique();
+            $table->string("businessSlug", 50)->unique();
             $table->string("cellphoneNumber", 10)->nullable();
             $table->string("businessDescription", 100);
             $table->integer("categoryId")->unsigned();
