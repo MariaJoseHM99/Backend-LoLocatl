@@ -111,6 +111,7 @@ class BusinessController extends Controller
             $business->categoryId = Category::find($request->input("categoryId"))->categoryId;
             $business->scheduleId = Schedule::find($request->input("scheduleId"))->scheduleId;
             $business->businessName = $request->input("businessName");
+            $business->businessSlug = Business::getSlugName($request->input("businessName"));
             $business->cellphoneNumber = $request->input("cellphoneNumber");
             $business->businessDescription = $request->input("businessDescription");
 

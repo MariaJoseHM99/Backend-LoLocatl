@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Auth;
+
 
 
 class Business extends Model {
@@ -36,5 +38,11 @@ class Business extends Model {
         if (!$this->save()) {
             throw new \Exception("An error occurred on saving business.");
         }
+    }
+
+    public static function getSlugName($businessName){
+        $businessSlug = Str::of($businessName)->slug("-");
+
+        return $businessSlug;
     }
 }
