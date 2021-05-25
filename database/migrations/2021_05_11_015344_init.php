@@ -44,7 +44,6 @@ class Init extends Migration {
             $table->increments("businessId");
             $table->string("businessName", 50)->unique();
             $table->string("businessSlug", 50)->unique();
-            $table->string("cellphoneNumber", 10)->nullable();
             $table->string("businessDescription", 100);
             $table->integer("categoryId")->unsigned();
             $table->foreign("categoryId")->references("categoryId")->on("category");
@@ -52,6 +51,14 @@ class Init extends Migration {
             $table->foreign("scheduleId")->references("scheduleId")->on("schedule");
             $table->integer("userId")->unsigned();
             $table->foreign("userId")->references("userId")->on("user");
+        });
+
+        Schema::create("phoneNumber", function(Blueprint $table){
+            $table->increments("phoneNumberId");
+            $table->string("phoneNumber",10)->unique();
+            $table->string("numberType"); //NUMBERTYPE 
+            $table->integer("businessId")->unsigned();
+            $table->foreign("businessId")->references("businessId")->on("business");
         });
         
         Schema::create("review", function (Blueprint $table) {
@@ -75,18 +82,20 @@ class Init extends Migration {
 
     }
 
-        /**
-         * Reverse the migrations.
-         *
-         * @return void
-         */
-        public function down() {
-            Schema::dropIfExists("photo");
-            Schema::dropIfExists("schedule");
-            Schema::dropIfExists("category");
-            Schema::dropIfExists("review");
-            Schema::dropIfExists("business");
-            Schema::dropIfExists("user");
-        }
+    /**
+    * Reverse the migrations.
+    *
+    * @return void
+    */
+    public function down() {
+        Schema::dropIfExists("photo");
+        Schema::dropIfExists("review");
+        Schema::dropIfExists("phoneNumber");
+        Schema::dropIfExists("business");
+        Schema::dropIfExists("category");
+        Schema::dropIfExists("scheduleDay");
+        Schema::dropIfExists("schedule");
+        Schema::dropIfExists("user");    
+    }
 }
 

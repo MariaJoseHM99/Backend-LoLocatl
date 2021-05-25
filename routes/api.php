@@ -32,4 +32,5 @@ Route::post('/business/createCategory', [BusinessController::class,'createCatego
 Route::post('/business/createSchedule', [BusinessController::class,'createSchedule']);
 Route::post('/business/{scheduleId}/createScheduleDay', [BusinessController::class,'createScheduleDay']);
 Route::post('/business/registerBusiness', [BusinessController::class,'registerBusiness']);
+Route::post('/business/{businessId}/registerPhoneNumber', [BusinessController::class,'registerPhoneNumber']);
 });

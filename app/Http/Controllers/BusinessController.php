@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
 use Illuminate\Tttp\Token;
 use App\Enums\AttentionDay;
+use App\Enums\NumberType;
 use App\Models\Category;
 use App\Models\Schedule;
 use App\Models\ScheduleDay;
 use App\Models\Business;
 use App\Models\User;
-
-
+use App\Models\PhoneNumber;
 
 
 class BusinessController extends Controller
@@ -97,7 +97,6 @@ class BusinessController extends Controller
     public function registerBusiness(Request $request) {
         $request->validate([
             'businessName' => 'required|string',
-            'cellphoneNumber' => 'required|string',
             'businessDescription' => 'required|string',
             'categoryId' => 'required|integer',
             'scheduleId' => 'required|integer'
@@ -112,7 +111,6 @@ class BusinessController extends Controller
             $business->scheduleId = Schedule::find($request->input("scheduleId"))->scheduleId;
             $business->businessName = $request->input("businessName");
             $business->businessSlug = Business::getSlugName($request->input("businessName"));
-            $business->cellphoneNumber = $request->input("cellphoneNumber");
             $business->businessDescription = $request->input("businessDescription");
 
             $business->saveBusiness();
@@ -128,5 +126,33 @@ class BusinessController extends Controller
             ], 500);
         }
     }
+
+    public function registerPhoneNumber(Request $request, int $businessId)
+    {
+        $request->validate([
+            'phoneNumber' => 'required|string',
+            'numberType' => 'required|integer'
+        ]);
+        
+        try{
+        $phoneNumber = new PhoneNumber();
+        $phoneNumber->phoneNumber = $request->input("phoneNumber");
+        $phoneNumber->numberType = $request->input("numberType");
+        $phoneNumber->businessId = $businessId;
+        $phoneNumber->savePhoneNumber();
+
+        return response()->json([
+            "status" => "success",
+            'message' => 'Phone Number registered successfully!'
+        ], 201);
+
+        }catch (\Exception $e) {
+            return response()->json([
+                "status" => "failure",
+                "message" => $e->getMessage()
+            ], 500);
+        }
+    }
+
 }
   
