@@ -23,18 +23,6 @@ class Init extends Migration {
 
         });
 
-        Schema::create("schedule", function (Blueprint $table) {
-            $table->increments("scheduleId");
-            $table->string('timetable',100);
-        });
-
-        Schema::create("scheduleDay", function (Blueprint $table) {
-            $table->increments("scheduleDayId");
-            $table->integer("attentionDay"); // AttentionDay
-            $table->foreign("scheduleId")->references("scheduleId")->on("schedule");
-            $table->integer("scheduleId")->unsigned();
-        });
-
         Schema::create("category", function (Blueprint $table) {
             $table->increments("categoryId");
             $table->string('nameCategory',25);
@@ -47,16 +35,22 @@ class Init extends Migration {
             $table->string("businessDescription", 100);
             $table->integer("categoryId")->unsigned();
             $table->foreign("categoryId")->references("categoryId")->on("category");
-            $table->integer("scheduleId")->unsigned();
-            $table->foreign("scheduleId")->references("scheduleId")->on("schedule");
             $table->integer("userId")->unsigned();
             $table->foreign("userId")->references("userId")->on("user");
+        });
+
+        Schema::create("scheduleDay", function (Blueprint $table) {
+            $table->increments("scheduleDayId");
+            $table->integer("attentionDay"); // Lunes, Lunes,
+            $table->string('timetable',100); //  17-21, 9-15,
+            $table->integer("businessId")->unsigned();
+            $table->foreign("businessId")->references("businessId")->on("business");
         });
 
         Schema::create("phoneNumber", function(Blueprint $table){
             $table->increments("phoneNumberId");
             $table->string("phoneNumber",10)->unique();
-            $table->string("numberType"); //NUMBERTYPE 
+            $table->enum("numberType", [0, 1]); //NUMBERTYPE
             $table->integer("businessId")->unsigned();
             $table->foreign("businessId")->references("businessId")->on("business");
         });
@@ -91,10 +85,9 @@ class Init extends Migration {
         Schema::dropIfExists("photo");
         Schema::dropIfExists("review");
         Schema::dropIfExists("phoneNumber");
+        Schema::dropIfExists("scheduleDay");
         Schema::dropIfExists("business");
         Schema::dropIfExists("category");
-        Schema::dropIfExists("scheduleDay");
-        Schema::dropIfExists("schedule");
         Schema::dropIfExists("user");    
     }
 }
