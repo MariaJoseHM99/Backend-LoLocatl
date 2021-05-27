@@ -43,63 +43,11 @@ class BusinessController extends Controller
         }
     }
 
-    public function createSchedule(Request $request)
-    {
-        $request->validate([
-            'timetable' => 'required|string'
-        ]);
-        
-        try{
-        $schedule = new schedule();
-        $schedule->timetable = $request->input("timetable");
-        $schedule->saveSchedule();
-
-        return response()->json([
-            "status" => "success",
-            'message' => 'Schedule created successfully!'
-        ], 201);
-
-        }catch (\Exception $e) {
-            return response()->json([
-                "status" => "failure",
-                "message" => $e->getMessage()
-            ], 500);
-        }
-    }
-
-
-    public function createScheduleDay(Request $request, int $scheduleId)
-    {
-        $request->validate([
-            'attentionDay' => 'required|integer'
-
-        ]);
-        
-        try{
-        $scheduleDay = new ScheduleDay();
-        $scheduleDay->attentionDay = $request->input("attentionDay");
-        $scheduleDay->scheduleId = $scheduleId;
-        $scheduleDay->saveScheduleDay();
-
-        return response()->json([
-            "status" => "success",
-            'message' => 'Schedule Day created successfully!'
-        ], 201);
-
-        }catch (\Exception $e) {
-            return response()->json([
-                "status" => "failure",
-                "message" => $e->getMessage()
-            ], 500);
-        }
-    }
-
     public function registerBusiness(Request $request) {
         $request->validate([
             'businessName' => 'required|string',
             'businessDescription' => 'required|string',
-            'categoryId' => 'required|integer',
-            'scheduleId' => 'required|integer'
+            'categoryId' => 'required|integer'
         ]);
     
         try{
@@ -108,7 +56,6 @@ class BusinessController extends Controller
             $userId = $user->userId;
             $business->userId = $userId;
             $business->categoryId = Category::find($request->input("categoryId"))->categoryId;
-            $business->scheduleId = Schedule::find($request->input("scheduleId"))->scheduleId;
             $business->businessName = $request->input("businessName");
             $business->businessSlug = Business::getSlugName($request->input("businessName"));
             $business->businessDescription = $request->input("businessDescription");
@@ -126,6 +73,36 @@ class BusinessController extends Controller
             ], 500);
         }
     }
+
+
+    public function createScheduleDay(Request $request, int $businessId)
+    {
+        $request->validate([
+            'attentionDay' => 'required|integer',
+            'timetable' => 'required|integer'
+
+        ]);
+        
+        try{
+        $scheduleDay = new ScheduleDay();
+        $scheduleDay->attentionDay = $request->input("attentionDay");
+        $scheduleDay->timetable = $request->input("timetable");
+        $scheduleDay->businessId = $businessId;
+        $scheduleDay->saveScheduleDay();
+
+        return response()->json([
+            "status" => "success",
+            'message' => 'Schedule Day created successfully!'
+        ], 201);
+
+        }catch (\Exception $e) {
+            return response()->json([
+                "status" => "failure",
+                "message" => $e->getMessage()
+            ], 500);
+        }
+    }
+
 
     public function registerPhoneNumber(Request $request, int $businessId)
     {

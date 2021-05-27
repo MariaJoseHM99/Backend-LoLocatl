@@ -73,7 +73,6 @@ class Init extends Migration {
             $table->integer("businessid")->unsigned();
             $table->foreign("businessid")->references("businessId")->on("business");  
         });
-
     }
 
     /**
