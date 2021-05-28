@@ -28,9 +28,11 @@ Route::post('/user/updateUser', [ProfileController::class,'updateUser']);
 Route::delete('/user/deleteUser',[ProfileController::class,'deleteUser']);
 
     //BUSINESS CONTROLLER
+Route::get('/business', [BusinessController::class, 'getAllBusiness']);
+Route::get('/business/{businessSlug}', [BusinessController::class, 'getBusinessBySlug']);
 Route::post('/business/createCategory', [BusinessController::class,'createCategory']);
 Route::post('/business/createSchedule', [BusinessController::class,'createSchedule']);
-Route::post('/business/{scheduleId}/createScheduleDay', [BusinessController::class,'createScheduleDay']);
+Route::post('/business/{businessId}/createScheduleDay', [BusinessController::class,'createScheduleDay']);
 Route::post('/business/registerBusiness', [BusinessController::class,'registerBusiness']);
 Route::post('/business/{businessId}/registerPhoneNumber', [BusinessController::class,'registerPhoneNumber']);
 });

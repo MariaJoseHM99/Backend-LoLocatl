@@ -25,7 +25,7 @@ class Business extends Model {
      *
      * @var string
      */
-    protected $primaryKey = "businessId";
+    protected $primaryKey = "id";
 
     /**
      * True if there are columns for creation and update dates.
@@ -33,6 +33,14 @@ class Business extends Model {
      * @var boolean
      */
     public $timestamps = false;
+
+    public function getAllBusiness() {
+        return $this::with('phoneNumbers')->get();
+    }
+
+    public function getBusinessBySlug($businessSlug) {
+        return $this::with(['phoneNumbers', 'category'])->where('businessSlug', $businessSlug)->first();
+    }
 
     public function saveBusiness() {
         if (!$this->save()) {
@@ -44,5 +52,13 @@ class Business extends Model {
         $businessSlug = Str::of($businessName)->slug("-");
 
         return $businessSlug;
+    }
+
+    public function category() {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function phoneNumbers() {
+        return $this->hasMany(PhoneNumber::class);
     }
 }

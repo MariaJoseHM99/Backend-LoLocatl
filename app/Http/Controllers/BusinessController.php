@@ -2,29 +2,62 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Response;
 use Illuminate\Tttp\Token;
-use App\Enums\AttentionDay;
-use App\Enums\NumberType;
 use App\Models\Category;
 use App\Models\Schedule;
 use App\Models\ScheduleDay;
 use App\Models\Business;
-use App\Models\User;
 use App\Models\PhoneNumber;
 
 
 class BusinessController extends Controller
 {
-    public function createCategory(Request $request)
+    public function getAllBusiness(Request $request): JsonResponse
+    {
+        try {
+            $business = new Business();
+            $businesses = $business->getAllBusiness();
+
+            return response()->json($businesses);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "failure",
+                "message" => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getBusinessBySlug(Request $request, $businessSlug): JsonResponse
+    {
+        try {
+            $business = new Business();
+            $business = $business->getBusinessBySlug($businessSlug);
+
+            if ($business == null) {
+                return response()->json([
+                    "status" => "failure",
+                    "message" => "No existe ese negocio"
+                ], 500);
+            }
+
+            return response()->json($business);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "failure",
+                "message" => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function createCategory(Request $request): JsonResponse
     {
         $request->validate([
             'nameCategory' => 'required|string'
         ]);
-        
+
         try{
         $category = new category();
         $category->nameCategory = $request->input("nameCategory");
@@ -49,18 +82,31 @@ class BusinessController extends Controller
             'businessDescription' => 'required|string',
             'categoryId' => 'required|integer'
         ]);
-    
+
+        $businessData = json_decode($request->getContent(), true);
+
         try{
+            // TODO Implementar transacción.
+
             $business = new Business();
             $user = $request->user();
             $userId = $user->userId;
             $business->userId = $userId;
-            $business->categoryId = Category::find($request->input("categoryId"))->categoryId;
-            $business->businessName = $request->input("businessName");
-            $business->businessSlug = Business::getSlugName($request->input("businessName"));
-            $business->businessDescription = $request->input("businessDescription");
+            $business->categoryId = Category::find($businessData["categoryId"])->categoryId;
+            $business->businessName = $businessData["businessName"];
+            $business->businessSlug = Business::getSlugName($businessData["businessName"]);
+            $business->businessDescription = $businessData["businessDescription"];
 
             $business->saveBusiness();
+
+            foreach($businessData["phoneNumbers"] as $number) {
+                // Falta validar phoneNumbers, aquí.
+
+                $phoneNumber = new PhoneNumber();
+                $phoneNumber->phoneNumber = $number["phoneNumber"];
+                $phoneNumber->numberType = $number["numberType"];
+                $business->phoneNumbers()->save($phoneNumber);
+            }
 
             return response()->json([
                 "status" => "success",
@@ -82,7 +128,7 @@ class BusinessController extends Controller
             'timetable' => 'required|integer'
 
         ]);
-        
+
         try{
         $scheduleDay = new ScheduleDay();
         $scheduleDay->attentionDay = $request->input("attentionDay");
@@ -110,7 +156,7 @@ class BusinessController extends Controller
             'phoneNumber' => 'required|string',
             'numberType' => 'required|integer'
         ]);
-        
+
         try{
         $phoneNumber = new PhoneNumber();
         $phoneNumber->phoneNumber = $request->input("phoneNumber");
@@ -132,4 +178,4 @@ class BusinessController extends Controller
     }
 
 }
-  
+
