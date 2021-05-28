@@ -1,0 +1,41 @@
+version: '3'
+services:
+
+  app:
+    container_name: backend-lolocatl
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: backend-lolocatl
+    restart: unless-stopped
+    networks:
+      - lolocatl
+  nginx:
+    container_name: lolocatl-nginx
+    image: nginx:alpine
+    restart: unless-stopped
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    ports:
+      - 8080:80
+    networks:
+      - lolocatl
+  db:
+    container_name: lolocatl-database
+    image: mysql:5.7
+    ports:
+      - 3388:3306
+    volumes:
+      - ./docker-volumes-data/db:/var/lib/database
+    environment:
+      MYSQL_ROOT_PASSWORD: notapassword
+      MYSQL_DATABASE: lolocatl
+      MYSQL_USER: lolocatl
+      MYSQL_PASSWORD: awadeuwu
+    networks:
+      - lolocatl
+
+networks:
+  lolocatl:
+    driver: bridge
