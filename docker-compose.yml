@@ -29,7 +29,7 @@ services:
     volumes:
       - ./docker-volumes-data/db:/var/lib/database
     environment:
-      MYSQL_ROOT_PASSWORD: notapassword
+      MYSQL_ROOT_PASSWORD: awadeuwu
       MYSQL_DATABASE: lolocatl
       MYSQL_USER: lolocatl
       MYSQL_PASSWORD: awadeuwu

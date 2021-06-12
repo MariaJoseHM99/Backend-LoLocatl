@@ -13,9 +13,10 @@ COPY . /var/www
 COPY .env /var/www
 
 COPY --chown=www:www . /var/www
+RUN chown -R www:www .
 USER www
 
-RUN composer install --no-scripts --no-suggest --optimize-autoloader
+RUN composer install --no-scripts --optimize-autoloader
 
 EXPOSE 9000
 CMD ["php-fpm"]
