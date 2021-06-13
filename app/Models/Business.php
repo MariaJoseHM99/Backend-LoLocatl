@@ -61,4 +61,33 @@ class Business extends Model {
     public function phoneNumbers() {
         return $this->hasMany(PhoneNumber::class);
     }
+
+    public static function createBusiness($userId, $categoryId, $businessName, $businessDescription, $phoneNumbers){
+
+        try{
+            DB::beginTransaction();
+            $business = new Business();
+            $business->userId = $userId;
+            $business->categoryId = $categoryId;
+            $business->businessName = $businessName;
+            $business->businessSlug = Business::getSlugName($businessName);
+            $business->businessDescription = $businessDescription;
+
+            $business->saveBusiness();
+
+            foreach($phoneNumbers as $number) {
+                $phoneNumber = new PhoneNumber();
+                $phoneNumber->phoneNumber = $number["phoneNumber"];
+                $phoneNumber->numberType = $number["numberType"];
+                $business->phoneNumbers()->save($phoneNumber);
+            }
+            DB::commit();
+        }catch(\Exception $e){
+            DB::rollBack();
+            throw $e;
+        }
+            
+        
+
+    }
 }

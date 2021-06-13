@@ -83,35 +83,34 @@ class BusinessController extends Controller
             'categoryId' => 'required|integer'
         ]);
 
-        $businessData = json_decode($request->getContent(), true);
+        foreach($request->phoneNumbers as $phone){
+            $validator = Validator::make($phone, [
+                'phoneNumber' => 'required|string|phoneNumber|unique:phoneNumber',
+                'numberType' => 'required|integer'
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    "status" => "failure",
+                    "message" => "An error occurred on .", //TO DO
+                ], 400);
+            }  
+        }
 
         try{
-            // TODO Implementar transacción.
-
-            $business = new Business();
             $user = $request->user();
-            $userId = $user->userId;
-            $business->userId = $userId;
-            $business->categoryId = Category::find($businessData["categoryId"])->categoryId;
-            $business->businessName = $businessData["businessName"];
-            $business->businessSlug = Business::getSlugName($businessData["businessName"]);
-            $business->businessDescription = $businessData["businessDescription"];
-
-            $business->saveBusiness();
-
-            foreach($businessData["phoneNumbers"] as $number) {
-                // Falta validar phoneNumbers, aquí.
-
-                $phoneNumber = new PhoneNumber();
-                $phoneNumber->phoneNumber = $number["phoneNumber"];
-                $phoneNumber->numberType = $number["numberType"];
-                $business->phoneNumbers()->save($phoneNumber);
-            }
+            Business::createBusiness(
+                $user->userId,
+                $request->input("categoryId"),
+                $request->input("businessName"),
+                $request->input("businessDescription"), 
+                $request->input("phoneNumbers")
+            );
 
             return response()->json([
                 "status" => "success",
                 'message' => 'Business created successfully!'
             ], 201);
+
         } catch (\Exception $e) {
             return response()->json([
                 "status" => "failure",

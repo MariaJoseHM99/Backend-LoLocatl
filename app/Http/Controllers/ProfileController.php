@@ -14,22 +14,35 @@ class ProfileController extends Controller
     public function updateUser(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
-            'lastname' => 'required|string',
-            'email' => 'required|string|email|unique:user',
-            'password' => 'required|string',
-            'address' => 'required|string',
+            'name' => 'string',
+            'lastname' => 'string',
+            'email' => 'string|email|unique:user',
+            'password' => 'string',
+            'address' => 'string',
             'cellphoneNumber' => 'string'
         ]);  
         
         try{
             $user = $request->user();
-            $user->name = $request->input("name");
-            $user->lastname = $request->input("lastname");
-            $user->email = $request->input("email");
-            $user->password = Hash::make($request->input("password"));
-            $user->address = $request->input("address");
-            $user->cellphoneNumber = $request->input("cellphoneNumber"); 
+            if($request->name != null){
+                $user->name = $request->input("name");
+            }
+
+            if($request->lastname != null){
+                $user->lastname = $request->input("lastname");
+            }
+            if($request->email != null){
+                $user->email = $request->input("email");
+            }
+            if($request->password != null){
+                $user->password = Hash::make($request->input("password"));
+            }
+            if($request->address != null){
+                $user->address = $request->input("address");
+            }
+            if($request->lastname != null){
+                $user->cellphoneNumber = $request->input("cellphoneNumber"); 
+            }
             $user->saveUser();
 
             return response()->json([
