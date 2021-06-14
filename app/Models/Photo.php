@@ -22,3 +22,4 @@ class Photo extends Authenticatable {
      * @var string
      */
     protected $primaryKey = "photoId";
+}

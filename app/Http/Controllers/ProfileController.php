@@ -76,9 +76,6 @@ class ProfileController extends Controller
                 "status" => "failure",
                 "message" => $e->getMessage()
             ], 500);
-         }
-        
-        
-        
+        }  
     }
 }

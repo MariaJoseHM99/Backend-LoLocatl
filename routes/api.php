@@ -28,11 +28,16 @@ Route::post('/user/updateUser', [ProfileController::class,'updateUser']);
 Route::delete('/user/deleteUser',[ProfileController::class,'deleteUser']);
 
     //BUSINESS CONTROLLER
-Route::get('/business', [BusinessController::class, 'getAllBusiness']);
-Route::get('/business/{businessSlug}', [BusinessController::class, 'getBusinessBySlug']);
+Route::get('/business/getAllBusiness', [BusinessController::class, 'getAllBusiness']);
+Route::get('/business/{businessSlug}/getBusinessBySlug', [BusinessController::class, 'getBusinessBySlug']);
 Route::post('/business/createCategory', [BusinessController::class,'createCategory']);
 Route::post('/business/createSchedule', [BusinessController::class,'createSchedule']);
 Route::post('/business/{businessId}/createScheduleDay', [BusinessController::class,'createScheduleDay']);
 Route::post('/business/registerBusiness', [BusinessController::class,'registerBusiness']);
 Route::post('/business/{businessId}/registerPhoneNumber', [BusinessController::class,'registerPhoneNumber']);
+
+    //REVIEW CONTROLLER
+Route::post('/review/{businessId}/addReviewToBusiness', [ReviewController::class,'addReviewToBusiness']);
+Route::get('/business/{businessId}/getBusinessReview', [BusinessController::class, 'getBusinessReview']);
+
 });

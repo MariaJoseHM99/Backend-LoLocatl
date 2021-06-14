@@ -91,7 +91,7 @@ class BusinessController extends Controller
             if ($validator->fails()) {
                 return response()->json([
                     "status" => "failure",
-                    "message" => "An error occurred on .", //TO DO
+                    "message" => "An error occurred on register phone number .", 
                 ], 400);
             }  
         }
