@@ -42,9 +42,9 @@ class Category extends Model {
         }
     }
 
-    public static function getCategoryById(int $categoryId){  
-        $category = Category::find($categoryId); 
-        if (Category::where("categoryId", $categoryId)->count() == 0) 
+    public static function getCategoryById(){  
+        $category = Category::find($this->$categoryId); 
+        if (Category::where("categoryId", $this->$categoryId)->count() == 0) 
         {
             return response()->json([
                 'message' => 'The category doesn´t exit'
@@ -54,11 +54,15 @@ class Category extends Model {
         }  
     }
 
-    public static function getuserByName(string $nameCategory){
+    public static function getcategoryByName(string $nameCategory){
         $category = Caregory::where("nameCategory", $nameCategory)->get()->first();
         if ($category == null) {
             throw new \Exception("Category not found.");
         }
         return $category;
+    }
+
+    public function getAllCategories() {
+        return $this::with('nameCategory')->get();
     }
 }

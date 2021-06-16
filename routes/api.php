@@ -20,6 +20,7 @@ use App\Http\Controllers\BusinessController;
 
 Route::post('/user/signUp', [LoginController::class,'signUp']);
 Route::post('/user/login',[LoginController::class,'login']);
+Route::get('/business/getAllBusiness', [BusinessController::class, 'getAllBusiness']);
 
 Route::group(['middleware' => 'auth:api'],function(){
     //LOGIN CONTROLLER
@@ -28,7 +29,6 @@ Route::post('/user/updateUser', [ProfileController::class,'updateUser']);
 Route::delete('/user/deleteUser',[ProfileController::class,'deleteUser']);
 
     //BUSINESS CONTROLLER
-Route::get('/business/getAllBusiness', [BusinessController::class, 'getAllBusiness']);
 Route::get('/business/{businessSlug}/getBusinessBySlug', [BusinessController::class, 'getBusinessBySlug']);
 Route::post('/business/createCategory', [BusinessController::class,'createCategory']);
 Route::post('/business/createSchedule', [BusinessController::class,'createSchedule']);
@@ -39,5 +39,8 @@ Route::post('/business/{businessId}/registerPhoneNumber', [BusinessController::c
     //REVIEW CONTROLLER
 Route::post('/review/{businessId}/addReviewToBusiness', [ReviewController::class,'addReviewToBusiness']);
 Route::get('/business/{businessId}/getBusinessReview', [BusinessController::class, 'getBusinessReview']);
+
+    //CATEGORY CONTROLLER
+Route::get('/category/getAllCategories', [CategoryController::class,'getAllCategories']);
 
 });
