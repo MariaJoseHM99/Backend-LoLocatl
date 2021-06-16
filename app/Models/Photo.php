@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+use Auth;
 
 
-class Photo extends Authenticatable {
-    use HasFactory, Notifiable, HasApiTokens;
+
+class Photo extends Model {
+    use HasFactory;
 
     /**
      * Table in database.
@@ -22,4 +25,10 @@ class Photo extends Authenticatable {
      * @var string
      */
     protected $primaryKey = "photoId";
+
+    public function savePhoto() {
+        if (!$this->save()) {
+            throw new \Exception("An error occurred on saving user.");
+        }
+    }
 }

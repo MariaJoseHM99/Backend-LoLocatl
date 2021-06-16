@@ -31,12 +31,12 @@ Route::group(['middleware' => 'auth:api'],function(){
     Route::delete('/user/deleteUser',[ProfileController::class,'deleteUser']);
 
     //BUSINESS CONTROLLER
-
     Route::post('/business/createCategory', [BusinessController::class,'createCategory']);
     Route::post('/business/createSchedule', [BusinessController::class,'createSchedule']);
     Route::post('/business/{businessId}/createScheduleDay', [BusinessController::class,'createScheduleDay']);
     Route::post('/business/registerBusiness', [BusinessController::class,'registerBusiness']);
     Route::post('/business/{businessId}/registerPhoneNumber', [BusinessController::class,'registerPhoneNumber']);
+    Route::post('/business/uploadPhoto', [BusinessController::class,'uploadPhoto']);
 
     //REVIEW CONTROLLER
     Route::post('/review/{businessId}/addReviewToBusiness', [ReviewController::class,'addReviewToBusiness']);

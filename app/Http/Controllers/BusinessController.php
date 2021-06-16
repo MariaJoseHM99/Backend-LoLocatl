@@ -11,6 +11,7 @@ use App\Models\Schedule;
 use App\Models\ScheduleDay;
 use App\Models\Business;
 use App\Models\PhoneNumber;
+use App\Models\Photo;
 
 
 class BusinessController extends Controller
@@ -176,5 +177,29 @@ class BusinessController extends Controller
         }
     }
 
+    public function uploadPhoto(Request $request) {
+        
+        $request->validate([
+            'imageStoragePath'=> 'required|image|max:2048'
+        ]);
+
+        try{
+        $photo = new Photograph();
+        $photo->imageStoragePath = $request->file("imageStoragePath")->store( "", "photos");
+        $photo->businessId = $request->business()->businessId;
+        $photo->savePhoto();
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Successfully uploaded photo!' 
+        ], 201);
+
+        }catch (\Exception $e) {
+            return response()->json([
+                "status" => "failure",
+                "message" => $e->getMessage()
+            ], 500);
+        }
+    }
 }
 
