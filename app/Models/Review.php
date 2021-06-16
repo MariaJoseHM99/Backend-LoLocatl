@@ -30,18 +30,4 @@ class Review extends Model {
             throw new \Exception("An error occurred on saving review.");
         }
     }
-
-    public function getReviews(Request $request, int $businessId){
-
-        if (Photograph::where("businessId", $businessId)->count() == 0) {
-            return response()->json([
-                'message' => 'The business doesn´t exit'
-            ]);
-        }else{
-            $review = Review::orderBy("publish_date","DESC")->where("businessId", $businessId)->get();
-            return response()->json(
-                $review
-            ); 
-        }                 
-    }
 }

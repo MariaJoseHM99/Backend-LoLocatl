@@ -48,6 +48,10 @@ class Business extends Model {
         }
     }
 
+    public static function geBusinesstById($businessId) {
+        return static::find($businessId);
+     }
+
     public static function getSlugName($businessName){
         $businessSlug = Str::of($businessName)->slug("-");
 
@@ -85,9 +89,19 @@ class Business extends Model {
         }catch(\Exception $e){
             DB::rollBack();
             throw $e;
-        }
-            
-        
+        } 
+    }
 
+    public function getReviews(){
+        if (Business::where("businessId", $this->businessId)->count() == 0) {
+            return response()->json([
+                'message' => 'The business doesn´t exit'
+            ]);
+        }else{
+            $review = Review::orderBy("publish_date","DESC")->where("businessId", $this->businessId)->get();
+            return response()->json(
+                $review
+            ); 
+        }                 
     }
 }

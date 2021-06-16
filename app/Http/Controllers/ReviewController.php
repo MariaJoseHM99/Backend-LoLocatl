@@ -42,6 +42,7 @@ class ReviewController extends Controller
     }
 
     public function getBusinessReview(Request $request, int $businessId){
-        $review->getReviews();                   
+        $business = Business::getBusinessById($businessId); 
+        $reviews = $business->getReviews();                  
     }
 }
