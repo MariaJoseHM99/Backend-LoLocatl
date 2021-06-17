@@ -40,7 +40,7 @@ class ProfileController extends Controller
             if($request->address != null){
                 $user->address = $request->input("address");
             }
-            if($request->lastname != null){
+            if($request->cellphoneNumber != null){
                 $user->cellphoneNumber = $request->input("cellphoneNumber"); 
             }
             $user->saveUser();
