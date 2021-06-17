@@ -36,7 +36,7 @@ Route::group(['middleware' => 'auth:api'],function(){
     Route::post('/business/{businessId}/createScheduleDay', [BusinessController::class,'createScheduleDay']);
     Route::post('/business/registerBusiness', [BusinessController::class,'registerBusiness']);
     Route::post('/business/{businessId}/registerPhoneNumber', [BusinessController::class,'registerPhoneNumber']);
-    Route::post('/business/uploadPhoto', [BusinessController::class,'uploadPhoto']);
+    Route::post('/business/{businessId}/uploadPhoto', [BusinessController::class,'uploadPhoto']);
 
     //REVIEW CONTROLLER
     Route::post('/review/{businessId}/addReviewToBusiness', [ReviewController::class,'addReviewToBusiness']);

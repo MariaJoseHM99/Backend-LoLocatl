@@ -179,7 +179,7 @@ class BusinessController extends Controller
         }
     }
 
-    public function uploadPhoto(Request $request) {
+    public function uploadPhoto(Request $request, int $businessId) {
         
         $request->validate([
             'imageStoragePath'=> 'required|image|max:2048'
@@ -188,7 +188,7 @@ class BusinessController extends Controller
         try{
         $photo = new Photo();
         $photo->imageStoragePath = $request->file("imageStoragePath")->store( "", "photos");
-        $photo->businessId = $request->business()->businessId;
+        $photo->businessId = $businessId;
         $photo->savePhoto();
 
         return response()->json([
