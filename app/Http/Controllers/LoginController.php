@@ -92,4 +92,10 @@ class LoginController extends Controller
         ]);
     }
 
+    public function getMe(Request $request)
+    {
+        return response()->json($request->user());
+    }
+
+
 }

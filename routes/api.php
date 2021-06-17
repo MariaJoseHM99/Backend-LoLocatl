@@ -27,8 +27,9 @@ Route::get('/business/{businessSlug}/getBusinessBySlug', [BusinessController::cl
 Route::group(['middleware' => 'auth:api'],function(){
     //LOGIN CONTROLLER
     Route::get('/user/logout',[LoginController::class,'logout']);
-    Route::post('/user/updateUser', [ProfileController::class,'updateUser']);
+    Route::get('/user/getMe', [LoginController::class,'getMe']);
     Route::delete('/user/deleteUser',[ProfileController::class,'deleteUser']);
+    Route::post('/user/updateUser', [ProfileController::class,'updateUser']);
 
     //BUSINESS CONTROLLER
     Route::post('/business/createCategory', [BusinessController::class,'createCategory']);
