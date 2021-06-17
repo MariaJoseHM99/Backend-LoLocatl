@@ -120,7 +120,7 @@ class LoginTest extends TestCase
      * 
      * @return void
      */
-    public function login_with_an_existent_account_test()
+    /*public function login_with_an_existent_account_test()
     {
         $response = $this->postJson("/api/user/login", [
 
@@ -132,5 +132,5 @@ class LoginTest extends TestCase
             "token_type",
             "expires_at"
         ]);
-    }
+    }*/
 }
