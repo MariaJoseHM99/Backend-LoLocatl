@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Validator;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
@@ -12,6 +13,7 @@ use App\Models\ScheduleDay;
 use App\Models\Business;
 use App\Models\PhoneNumber;
 use App\Models\Photo;
+
 
 
 class BusinessController extends Controller
@@ -86,7 +88,7 @@ class BusinessController extends Controller
 
         foreach($request->phoneNumbers as $phone){
             $validator = Validator::make($phone, [
-                'phoneNumber' => 'required|string|phoneNumber|unique:phoneNumber',
+                'phoneNumber' => 'required|string|unique:phoneNumber',
                 'numberType' => 'required|integer'
             ]);
             if ($validator->fails()) {
@@ -184,7 +186,7 @@ class BusinessController extends Controller
         ]);
 
         try{
-        $photo = new Photograph();
+        $photo = new Photo();
         $photo->imageStoragePath = $request->file("imageStoragePath")->store( "", "photos");
         $photo->businessId = $request->business()->businessId;
         $photo->savePhoto();

@@ -55,11 +55,14 @@ class Category extends Model {
     }
 
     public static function getcategoryByName(string $nameCategory){
-        $category = Caregory::where("nameCategory", $nameCategory)->get()->first();
-        if ($category == null) {
-            throw new \Exception("Category not found.");
-        }
-        return $category;
+        $category = Category::where("nameCategory", "LIKE", $nameCategory . "%")->get();
+        if (count($category)>0) {
+            return $category;
+        }else{
+            return response()->json([
+                'message' => 'The user doesn´t exit'
+            ]);
+        } 
     }
 
     public function getAllCategories() {
