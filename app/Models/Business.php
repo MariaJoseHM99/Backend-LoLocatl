@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Auth;
+use DB;
 
 
 
@@ -25,7 +26,7 @@ class Business extends Model {
      *
      * @var string
      */
-    protected $primaryKey = "id";
+    protected $primaryKey = "businessId";
 
     /**
      * True if there are columns for creation and update dates.
@@ -63,7 +64,7 @@ class Business extends Model {
     }
 
     public function phoneNumbers() {
-        return $this->hasMany(PhoneNumber::class);
+        return $this->hasMany(PhoneNumber::class,"businessId", "phoneNumberId");
     }
 
     public static function createBusiness($userId, $categoryId, $businessName, $businessDescription, $phoneNumbers){
@@ -76,15 +77,17 @@ class Business extends Model {
             $business->businessName = $businessName;
             $business->businessSlug = Business::getSlugName($businessName);
             $business->businessDescription = $businessDescription;
-
             $business->saveBusiness();
+            
 
             foreach($phoneNumbers as $number) {
                 $phoneNumber = new PhoneNumber();
+                $phoneNumber->businessId = $business->businessId;
                 $phoneNumber->phoneNumber = $number["phoneNumber"];
                 $phoneNumber->numberType = $number["numberType"];
-                $business->phoneNumbers()->save($phoneNumber);
+                $phoneNumber->save();
             }
+           
             DB::commit();
         }catch(\Exception $e){
             DB::rollBack();
