@@ -38,4 +38,5 @@ services:
 
 networks:
   lolocatl:
+    name: lolocatl
     driver: bridge
