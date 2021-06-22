@@ -80,6 +80,13 @@ class BusinessController extends Controller
     }
 
     public function registerBusiness(Request $request) {
+        
+        if (Business::getBusinessByUserId() == true) {
+            return response()->json([
+                'message' => 'You already have 3 registered business'
+            ]);
+        }
+        
         $request->validate([
             'businessName' => 'required|string',
             'businessDescription' => 'required|string',

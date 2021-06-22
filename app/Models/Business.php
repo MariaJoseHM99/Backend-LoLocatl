@@ -113,4 +113,13 @@ class Business extends Model
             );
         }
     }
+
+    public function getBusinessByUserId() 
+    {
+        if (Business::where("userId", $this->userId)->count() == 3) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
